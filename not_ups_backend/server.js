@@ -42,7 +42,7 @@ app.post('/api/getAll', (req, res) => {
 })
 
 // Get multiple packages' latest locations from the database filtering by prefix. 
-app.post('/api/getByPrefix', (req, res) => {
+app.post('/api/getPrefix', (req, res) => {
     // TODO: implement prefix check.
     btInstance.readRowByPrefix(req.body.packageId, {
         row: {
@@ -59,7 +59,7 @@ app.post('/api/getByPrefix', (req, res) => {
     })
 })
 
-app.post('/api/getByPrefixAll', (req, res) => {
+app.post('/api/getPrefixAll', (req, res) => {
     // TODO: implement prefix check.
     btInstance.readRowByPrefix(req.body.packageId).then(
         data => {

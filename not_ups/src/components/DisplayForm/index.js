@@ -1,8 +1,8 @@
 import React from 'react'
 
-export const ResultForm = (props) => {
+export const DisplayForm = (props) => {
     const timestampToHumanReadable = (timestamp) => {
-        return new Date(parseInt(timestamp) / 1000).toDateString()
+        return new Date(parseInt(timestamp) / 1000).toLocaleString('en-US')
     }
     const unpack = (data) => {
         const displayDict = {};
@@ -30,6 +30,7 @@ export const ResultForm = (props) => {
                                 <div>{timestamp} - {location}</div>
                             ))
                         }
+                        <br />
                     </>
 
                 )

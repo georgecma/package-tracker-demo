@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 
 import { CustomerLookupForm } from './components/CustomerLookupForm'
 import { VendorEditForm } from './components/VendorEditForm'
-import { ResultForm } from './components/ResultForm'
+import { DisplayForm } from './components/DisplayForm'
+import { VendorLookupForm } from './components/VendorLookupForm'
 
 function App() {
   const [displayData, setDisplayData] = useState('');
@@ -11,7 +12,8 @@ function App() {
     <div className="App">
       <CustomerLookupForm dataCallback={setDisplayData} />
       <VendorEditForm dataCallback={setDisplayData} />
-      <ResultForm displayData={displayData} />
+      <DisplayForm displayData={displayData} />
+      <VendorLookupForm dataCallback={setDisplayData} />
     </div >
   );
 }
