@@ -5,6 +5,9 @@ import { GetPackageForm } from './components/GetPackageForm'
 import { GetPackagePrefixForm } from './components/GetPackagePrefixForm'
 import { DisplayPackageDiv } from './components/DisplayPackageDiv'
 
+import { CustomerForm } from './components/CustomerForm'
+import { VendorForm } from './components/VendorForm'
+
 const axios = require('axios')
 
 
@@ -12,16 +15,11 @@ function App() {
   const [displayData, setDisplayData] = useState('');
   return (
     <div className="App">
-      <header className="App-header">
-        <GetPackageForm dataCallback={setDisplayData} />
-        {
-          // vendor has access to the following: 
-        }
-        <UpdatePackageForm dataCallback={setDisplayData} />
-        <GetPackagePrefixForm dataCallback={setDisplayData} />
-        <DisplayPackageDiv displayData={displayData} />
-      </header>
-    </div>
+      <CustomerForm dataCallback={setDisplayData} />
+      <VendorForm dataCallback={setDisplayData} />
+      <GetPackagePrefixForm dataCallback={setDisplayData} />
+      <DisplayPackageDiv displayData={displayData} />
+    </div >
   );
 }
 

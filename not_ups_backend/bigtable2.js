@@ -88,6 +88,13 @@ class BigTableReader {
     }
 
     updateRow(packageId, location) {
+        if (!packageId) {
+            throw 'No package ID provided.'
+        }
+        if (!location) {
+            throw 'No package location provided.'
+        }
+
         return new Promise(async (resolve, reject) => {
             this.table.row(packageId).filter({
                 row: packageId
@@ -114,6 +121,13 @@ class BigTableReader {
     }
 
     createRow(packageId, location) {
+        if (!packageId) {
+            throw 'No package ID provided.'
+        }
+        if (!location) {
+            throw 'No package location provided.'
+        }
+
         return new Promise(async (resolve, reject) => {
             this.table.row(packageId).filter({
                 row: packageId
