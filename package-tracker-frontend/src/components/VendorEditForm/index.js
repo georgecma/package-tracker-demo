@@ -25,11 +25,11 @@ export const VendorEditForm = (props) => {
             <form onSubmit={handleSubmit}>
                 <div className={style.grid} >
                     <label>
-                        PackageId:
+                        ID:
                     </label>
                     <input type='text' name='packageId' onChange={(e) => setId(e.target.value)} value={id} />
                     <label>
-                        PackageLocation:
+                        Location:
                     </label>
                     <input type='text' name='packageLocation' onChange={(e) => setLocation(e.target.value)} value={location} />
                 </div>

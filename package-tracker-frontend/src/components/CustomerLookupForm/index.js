@@ -20,7 +20,7 @@ export const CustomerLookupForm = (props) => {
             <h2>Customer Package Lookup </h2>
             <form onSubmit={handleSubmit}>
                 <label>
-                    PackageId:
+                    ID:
                 </label>
                 <input type='text' name='packageId' onChange={(e) => setId(e.target.value)} value={id} />
                 <input type='submit' value='Latest Location' onClick={() => setSubmitType('get')} />
