@@ -1,6 +1,5 @@
 const { Bigtable } = require('@google-cloud/bigtable');
 
-
 // initialize bigtable instance
 const bigtable = new Bigtable();
 // Connect to an existing instance:my-bigtable-instance
@@ -12,7 +11,6 @@ const table = instance.table('package-record');
  * Read all package locations for a given packageId.  
  * @returns {packageId: [locations]}
  */
-
 // This is a wrapper for the readstream, we can just call the underlying.
 async function getPackageLocation(packageId) {
   // Read a row from my-table using a row key

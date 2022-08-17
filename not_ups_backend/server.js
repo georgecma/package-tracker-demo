@@ -1,53 +1,96 @@
-
-
-const { request } = require('express');
 const express = require('express');
-const app = express();
-app.use(express.json())
-const bigtable = require('./bigtable')
+const bigtable = require('./bigtable2')
 
+// Initialize express app and bigtable instance.  
 const port = process.env.PORT || 8080;
+const app = express();
+app.use(express.json()) // Let app communicate in jsons. 
 
-/**
- * packageId format: shipperId, serviceSuffix (e.g. priority shipping, normal shipping), dateId, random hash
- * packageId format: 6 digits,  YYYYMMDD, 2 digits, 4 digit hash 
- * total is 18 digits, same as UPS length
- */
+const btInstance = new bigtable.BigTableReader(
+    process.env.BT_INSTANCE || 'georgecma-spacewalk', // TODO: scrub personal credentials.
+    process.env.BT_TABLE || 'package-record',
+)
 
-/**
- * Function area for bigtable
- */
-
-
-// Get one package from the database.
+// Get one package's latest location from the database.
 app.post('/api/get', (req, res) => {
-    bigtable.getPackageLocation(req.body.packageId).then(data => {
-        res.status(200).send(data)
+    btInstance.readRow(req.body.packageId, {
+        row: {
+            cellLimit: 1,
+        }
+    }).then(
+        data => {
+            console.log(data)
+            res.status(200).send(data)
+        }
+    ).catch(err => {
+        console.log(err)
+        res.status(400).send(err)
     })
 })
 
-// Get multiple packages from the database filtering by prefix. 
+// Get one package's entire location history from the database.
+app.post('/api/getAll', (req, res) => {
+    btInstance.readRow(req.body.packageId).then(
+        data => {
+            console.log(data)
+            res.status(200).send(data)
+        }
+    ).catch(err => {
+        console.log(err)
+        res.status(400).send(err)
+    })
+})
+
+// Get multiple packages' latest locations from the database filtering by prefix. 
 app.post('/api/getByPrefix', (req, res) => {
-    bigtable.getPackageLocationByPrefix(req.body.packageIdPrefix).then(data => {
-        res.status(200).send(data)
+    // TODO: implement prefix check.
+    btInstance.readRowByPrefix(req.body.packageId, {
+        row: {
+            cellLimit: 1,
+        }
+    }).then(
+        data => {
+            console.log(data)
+            res.status(200).send(data)
+        }
+    ).catch(err => {
+        console.log(err)
+        res.status(400).send(err)
     })
-
 })
 
-// create a packageId
+app.post('/api/getByPrefixAll', (req, res) => {
+    // TODO: implement prefix check.
+    btInstance.readRowByPrefix(req.body.packageId).then(
+        data => {
+            console.log(data)
+            res.status(200).send(data)
+        }
+    ).catch(err => {
+        console.log(err)
+        res.status(400).send(err)
+    })
+})
 
 // Create or update a package entry.
 app.post('/api/update', (req, res) => {
-    // simple verification for request body
-    if (!req.body || !req.body.packageId || !req.body.packageLocation) {
-        res.status(400).send()
-    }
-
-    bigtable.updatePackageLocation(req.body.packageId, req.body.packageLocation).then(data =>
+    btInstance.updateRow(req.body.packageId, req.body.packageLocation).then(data => {
+        console.log(data)
         res.status(200).send(data)
-    )
+    }).catch(err => {
+        console.log(err)
+        res.status(400).send(err)
+    })
 })
 
+app.post('/api/create', (req, res) => {
+    btInstance.createRow(req.body.packageId, req.body.packageLocation).then(data =>
+        res.status(200).send(data)
+    ).catch(err => {
+        console.log(err)
+        res.status(400).send(err)
+    })
+})
 
 
 app.listen(port, () => console.log('app is listening on ' + port))

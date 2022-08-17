@@ -6,7 +6,7 @@ export const GetPackagePrefixForm = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     console.log(id)
-    axios.post('/api/getByPrefix', {
+    axios.post('/api/getAll', {
       packageIdPrefix: id,
     }).then(res => {
       props.dataCallback(res.data)

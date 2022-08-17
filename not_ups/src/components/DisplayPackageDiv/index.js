@@ -16,6 +16,8 @@ const unpack = (data) => {
 }
 
 export const DisplayPackageDiv = (props) => {
+    console.log(props)
+    return <div>okay</div>
     if (!props.displayData) {
         return <div></div>
     }
