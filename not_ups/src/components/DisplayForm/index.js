@@ -21,6 +21,7 @@ export const DisplayForm = (props) => {
     try {
         const displayDict = unpack(props.displayData)
         return <div>
+            <h2>Package Lookup Result</h2>
             {Object.entries(displayDict).map(([packageId, locationArr]) => {
                 return (
                     <>
@@ -37,8 +38,11 @@ export const DisplayForm = (props) => {
             })}
         </div>
     } catch (err) {
-        console.log('Unable to parse result')
+        return <div>
+            <h2>Package Lookup Result</h2>
+            <div>Unable to parse result.</div>
+        </div>
     }
 
-    return <div>test2</div>
+
 }

@@ -10,10 +10,13 @@ function App() {
   const [displayData, setDisplayData] = useState('');
   return (
     <div className="App">
-      <CustomerLookupForm dataCallback={setDisplayData} />
-      <VendorEditForm dataCallback={setDisplayData} />
-      <DisplayForm displayData={displayData} />
-      <VendorLookupForm dataCallback={setDisplayData} />
+      <h1 className='title'>Package Tracker Demo</h1>
+      <div className='grid'>
+        <CustomerLookupForm dataCallback={setDisplayData} />
+        <VendorEditForm dataCallback={setDisplayData} />
+        <DisplayForm displayData={displayData} />
+        <VendorLookupForm dataCallback={setDisplayData} />
+      </div>
     </div >
   );
 }
