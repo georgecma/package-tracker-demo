@@ -8,7 +8,6 @@ export const DisplayForm = (props) => {
         const displayDict = {};
         Object.keys(data).forEach(packageId => {
             displayDict[packageId] = [];
-            console.log(data[packageId])
             data[packageId].locations.value.forEach(locationData => {
                 displayDict[packageId].push([
                     timestampToHumanReadable(locationData.timestamp),
