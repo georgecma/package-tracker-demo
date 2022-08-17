@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import style from './index.module.css';
 import axios from 'axios';
 
-export const VendorForm = (props) => {
+export const VendorEditForm = (props) => {
     const [id, setId] = useState('');
     const [location, setLocation] = useState('');
     const [submitType, setSubmitType] = useState('')

@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-export const CustomerForm = (props) => {
+export const CustomerLookupForm = (props) => {
     const [id, setId] = useState('');
+    const [submitType, setSubmitType] = useState('')
+
     const handleSubmit = (e) => {
         e.preventDefault()
-        axios.post('/api/get', {
+        axios.post(`/api/${submitType}`, {
             packageId: id,
         }).then(res => {
             // console.log('res', res.data)
@@ -21,8 +23,8 @@ export const CustomerForm = (props) => {
                     PackageId:
                 </label>
                 <input type='text' name='packageId' onChange={(e) => setId(e.target.value)} value={id} />
-                <input type='submit' value='Submit' />
-            </form>
+                <input type='submit' value='Latest Location' onClick={() => setSubmitType('get')} />
+                <input type='submit' value='History' onClick={() => setSubmitType('getAll')} />            </form>
         </div>
 
     )

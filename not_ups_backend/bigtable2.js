@@ -28,7 +28,6 @@ class BigTableReader {
         const padding = '#ACd142#20220813082213#1111'
 
         const fullKey = keyOrPrefix + padding.substring(keyOrPrefix.length)
-        console.log(fullKey)
         if (fullKey.match(regexExpr)) {
             return keyOrPrefix.length;
         }
@@ -73,7 +72,7 @@ class BigTableReader {
     readRow(packageId, filter = null) {
         return new Promise(async (resolve, reject) => {
             try {
-                const [result] = await this.table.row(packageId).get();
+                const [result] = await this.table.row(packageId).get({ filter });
                 resolve({
                     // Transform result into dictionary of format:
                     // [packageId] : [rowData]
@@ -110,7 +109,7 @@ class BigTableReader {
                 onNoMatch: [],
             }).then(result => {
                 if (result[0] == true) {
-                    resolve('Row update successful.')
+                    resolve(this.readRow(packageId))
                 }
                 else {
                     reject('Row update failed.')

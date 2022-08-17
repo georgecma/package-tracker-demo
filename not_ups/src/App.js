@@ -1,24 +1,17 @@
 import './App.css';
 import React, { useState } from 'react';
-import { UpdatePackageForm } from './components/UpdatePackageForm'
-import { GetPackageForm } from './components/GetPackageForm'
-import { GetPackagePrefixForm } from './components/GetPackagePrefixForm'
-import { DisplayPackageDiv } from './components/DisplayPackageDiv'
 
-import { CustomerForm } from './components/CustomerForm'
-import { VendorForm } from './components/VendorForm'
-
-const axios = require('axios')
-
+import { CustomerLookupForm } from './components/CustomerLookupForm'
+import { VendorEditForm } from './components/VendorEditForm'
+import { ResultForm } from './components/ResultForm'
 
 function App() {
   const [displayData, setDisplayData] = useState('');
   return (
     <div className="App">
-      <CustomerForm dataCallback={setDisplayData} />
-      <VendorForm dataCallback={setDisplayData} />
-      <GetPackagePrefixForm dataCallback={setDisplayData} />
-      <DisplayPackageDiv displayData={displayData} />
+      <CustomerLookupForm dataCallback={setDisplayData} />
+      <VendorEditForm dataCallback={setDisplayData} />
+      <ResultForm displayData={displayData} />
     </div >
   );
 }
