@@ -1,7 +1,7 @@
 Package Tracker Demo
 
 Package tracker demo to showcase BigTable node.js connectivity. 
-Frontend built with React, Backend built with Node.js.
+Frontend built with React (based on create-react-app), Backend built with express/Node.js.
 
 Setup Process:
 Frontend:

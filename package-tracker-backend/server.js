@@ -93,5 +93,8 @@ app.post('/api/create', (req, res) => {
     });
 });
 
+app.post('/api/test/clear', (req, res) => {
+    btInstance.clearTable().then(data => res.status(200).send());
+});
 
 app.listen(port, () => console.log('app is listening on ' + port));

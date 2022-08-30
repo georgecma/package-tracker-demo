@@ -153,7 +153,20 @@ class BigTableReader {
             );
         });
     }
+    clearTable() {
+        return new Promise(async (resolve, reject) => {
+            for (const e of ['1', '2', '3', '4', '5', '6', '7', '8', '9']) {
+                console.log(e, 'is being removed.');
+                await this.table.deleteRows(e.toString()).then(result => {
+                    console.log(result, e, 'prefix rows removed.');
+                }).catch(err => {
+                    console.log(e, 'error');
+                });
+            };
+            resolve('All rows removed.');
 
+        });
+    }
 
 }
 
