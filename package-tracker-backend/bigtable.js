@@ -35,8 +35,8 @@ class BigTableReader {
     }
 
     /**
-     * BigTable reader wrapper.
-     * @param {string} rowKeyOrPrefix 
+     * Read rows by prefix.
+     * @param {string} prefix 
      * @param {dictionary} filter
      * @returns {dictionary} {rowKey1: {locations:[loc1, loc2], },}
      */
@@ -64,7 +64,7 @@ class BigTableReader {
     }
 
     /**
-     * Alternative way to read a single row. 
+     * Read a single row. 
      * @param {string} packageId 
      * @param {dictionary} filter 
      * @returns 
@@ -86,6 +86,7 @@ class BigTableReader {
         });
     }
 
+    // Updates a row if the row with row-key already existed before, else returns failed promise.
     updateRow(packageId, location) {
         if (!packageId) {
             throw 'No package ID provided.';
@@ -119,6 +120,7 @@ class BigTableReader {
         });
     }
 
+    // Creates a row if the row with row-key did not exist before.
     createRow(packageId, location) {
         if (!packageId) {
             throw 'No package ID provided.';
@@ -153,6 +155,8 @@ class BigTableReader {
             );
         });
     }
+
+    // Test function to clear a table with rowkeys starting with [0-9] 
     clearTable() {
         return new Promise(async (resolve, reject) => {
             for (const e of ['1', '2', '3', '4', '5', '6', '7', '8', '9']) {

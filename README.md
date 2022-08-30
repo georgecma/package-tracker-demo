@@ -8,7 +8,7 @@ Frontend:
 ```
 cd package-tracker-frontend
 npm install
-npm start
+nodemon server.js
 ```
 Backend: 
 ```

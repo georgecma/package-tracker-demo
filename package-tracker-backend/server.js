@@ -73,7 +73,7 @@ app.post('/api/getPrefixAll', (req, res) => {
     });
 });
 
-// Create or update a package entry.
+// Update a package entry. Will not update if the row with row-key did not exist before.
 app.post('/api/update', (req, res) => {
     btInstance.updateRow(req.body.packageId, req.body.packageLocation).then(data => {
         console.log(data);
@@ -84,6 +84,7 @@ app.post('/api/update', (req, res) => {
     });
 });
 
+// Create a package entry. Will not create if a row with row-key already exists.
 app.post('/api/create', (req, res) => {
     btInstance.createRow(req.body.packageId, req.body.packageLocation).then(data =>
         res.status(200).send(data)
@@ -93,8 +94,9 @@ app.post('/api/create', (req, res) => {
     });
 });
 
+// Test function to remove all entries starting with [0-9]
 app.post('/api/test/clear', (req, res) => {
     btInstance.clearTable().then(data => res.status(200).send());
 });
 
-app.listen(port, () => console.log('app is listening on ' + port));
+app.listen(port, () => console.log('App is listening on ' + port + '.'));

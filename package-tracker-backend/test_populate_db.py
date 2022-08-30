@@ -1,17 +1,17 @@
 
 '''
-Script to populate localhost:8080 server with test data.
+Script to populate localhost:8080 server with test data for demos.
 
-Row format:
-#[10000-90000]#[YYYYMMDDHHmmSS]#[4 char suffix hash]
+Row key format:
+#VENDOR_RANGE   #TIME_RANGE         #SUFFIX_RANGE
+#[10000-99999]  #[YYYYMMDDHHmmSS]   #[4 char suffix hash]        
+e.g. #12411#20220826102243#5123
 
-Population format: 
-loop 10000-90000, fixed suffix hash:
-    generate timestamp and location tuples [1-10]:
-        create then populate
+For every row key, we append
 
-        write to file stream so we know what data there is
-        
+To run: 
+1) Make sure localhost:8080 backend server is up. 
+2) python3 populate_db.py
 '''
 
 import requests
@@ -20,13 +20,17 @@ from random import randrange, randint
 
 URL = 'http://127.0.0.1:8080/api'
 
+# Range to populate vendor IDs with.
 VENDOR_RANGE = (10000, 99999)
+# Range to populate suffix hashes with.
 SUFFIX_RANGE = (1000, 9999)
 # Aug 26, 2021 to August 8, 2022 in epoch seconds
 TIME_RANGE = (1630000000, 1660000000)
+# Candidate locations to choose from.
 LOCATIONS = (
     'Louisville', 'Philadelphia', 'Dallas', 'Ontario', 'Rockford', 'Hamilton', 'Miami', 'New York', 'New Jersey', 'Mountain View'
 )
+# Final location keyword.
 LOCATION_FINAL = 'DELIVERED'
 
 
@@ -37,45 +41,42 @@ def postURL(endpoint, body={}):
     return x
 
 
-def generateRowsForVendor(vendor):
-    '''
-    given vendor, create a row key by randomizing a timestamp > TIMESTAMP_BASE and attaching a randomized suffix
-    return row keys
-    '''
-    pass
-
-
 def generateSuffix():
-    return SUFFIX_RANGE[randrange(len(SUFFIX_RANGE))]
+    # Generate a random suffix within suffix range.
+    return randint(*SUFFIX_RANGE)
 
 
 def generateLocation():
+    # Select a random location from the location array.
     return LOCATIONS[randrange(len(LOCATIONS))]
 
 
 def generateDelivered():
+    # Generate either DELIVERED or an additional location with 50% probability each.
     if randrange(2) == 1:
         return LOCATION_FINAL
     else:
         return generateLocation()
 
 
-def generateLocations():
-    return [generateLocation() for i in range(randrange(1, 7))] + [generateDelivered()]
+def generateLocations(maxLocs=7):
+    # Generate an array of locations (including DELIVERED)
+    return [generateLocation() for i in range(randrange(maxLocs))] + [generateDelivered()]
 
 
 def generateTimestamp():
+    # Generate a random row-key-format timestamp within time range.
     return datetime.fromtimestamp(
         randint(*TIME_RANGE)).strftime('%Y%m%d%H%M%S')
 
 
 def createAndPopulateRow(rowkey, locations):
-    # create a row
+    # Create a new row with rowkey and populate it with an array of locations.
     postURL('/create', {
         'packageId': rowkey,
         'packageLocation': locations[0]
     })
-    # update row with new locations
+    # TODO: Add custom timestamps for each location for a more realistic demo.
     [postURL('/update', {
         'packageId': rowkey,
         'packageLocation': loc
@@ -83,18 +84,18 @@ def createAndPopulateRow(rowkey, locations):
 
 
 def main():
-
+    # Clear old test data.
     postURL('/test/clear')
 
-    # generate rows for each vendor
+    # Generate packages for each vendor within vendor range.
     for vendor in range(*VENDOR_RANGE):
-        # for each vendor, generate up to n rows
+        # For each vendor, generate up to n rows.
         for i in range(randrange(10)):
-            # create row key and locations
+            # Create row key and generate locations.
             rowkey = str(vendor) + generateTimestamp() + str(generateSuffix())
             locations = generateLocations()
 
-            # create matching bigtable row
+            # Call backend server to create and populate BigTable rows.
             createAndPopulateRow(rowkey, locations)
 
 

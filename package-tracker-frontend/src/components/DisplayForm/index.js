@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactScrollableList from 'react-scrollable-list';
 
 export const DisplayForm = (props) => {
     const timestampToHumanReadable = (timestamp) => {
