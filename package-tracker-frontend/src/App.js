@@ -7,6 +7,8 @@ import { DisplayForm } from './components/DisplayForm';
 import { VendorLookupForm } from './components/VendorLookupForm';
 
 function App() {
+  // Results from the API will be stored in displayData and transferred 
+  // to DisplayForm to display. 
   const [displayData, setDisplayData] = useState('');
   return (
     <div className="App">

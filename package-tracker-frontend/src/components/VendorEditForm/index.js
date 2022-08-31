@@ -2,23 +2,27 @@ import React, { useState } from 'react';
 import style from './index.module.css';
 import axios from 'axios';
 
+/**
+ * Form for vendor to create and update packages by filling in 
+ * packageId and latest location. 
+ */
 export const VendorEditForm = (props) => {
     const [id, setId] = useState('');
     const [location, setLocation] = useState('');
-    const [submitType, setSubmitType] = useState('')
+    const [submitType, setSubmitType] = useState('');
 
-    // Form submission process. 
+    // Calls backend to submit form data.
     const handleSubmit = (e) => {
-        e.preventDefault()
+        e.preventDefault();
         axios.post(`/api/${submitType}`, {
             packageId: id,
             packageLocation: location,
         }).then(res => {
-            props.dataCallback(res.data)
-            setId('')
-            setLocation('')
-        })
-    }
+            props.dataCallback(res.data);
+            setId('');
+            setLocation('');
+        });
+    };
     return (
         <div>
             <h2>Vendor Package Creation/Update</h2>
@@ -38,5 +42,5 @@ export const VendorEditForm = (props) => {
             </form>
         </div>
 
-    )
-}
+    );
+};

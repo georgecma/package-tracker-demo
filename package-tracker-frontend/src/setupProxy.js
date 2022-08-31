@@ -1,5 +1,8 @@
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
+/**
+ * Setup backend-fetch proxy for localhost:8080.
+ */
 module.exports = function (app) {
     app.use(
         '/api/',

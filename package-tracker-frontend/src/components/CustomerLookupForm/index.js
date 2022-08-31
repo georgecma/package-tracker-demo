@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+/**
+ * Single row-key lookup form. 
+ */
 export const CustomerLookupForm = (props) => {
     const [id, setId] = useState('');
     const [submitType, setSubmitType] = useState('');
