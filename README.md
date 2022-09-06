@@ -8,7 +8,7 @@ Frontend:
 ```
 cd package-tracker-frontend
 npm install
-nodemon server.js
+npm start
 ```
 Backend: 
 ```
@@ -19,5 +19,13 @@ touch .env
 # you should write the following in the .env file:
 # BT_INSTANCE='InstanceA'
 # BT_TABLE='TableB'
-npm start
+node server.js
+```
+Now you can navigate to localhost:3000 to see the demo. 
+You can add/remove/edit package records.
+
+Insert test data:
+```
+cd package-tracker-backend
+python3 test_populate_db.py
 ```
